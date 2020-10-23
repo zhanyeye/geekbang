@@ -35,6 +35,9 @@
                 <li>
                     <span v-if="!del">{{ title }}</span>
                     <span v-else style="text-decoration: line-through;">{{title}}</span>
+                    <!-- @是v-on的简写，监听DOM事件，触发时执行一些javaScript代码 -->
+                    <!-- v-on:click="func()" 的缩写时 @click="func()" -->
+                    <button v-show="!del" @click="handleClick">删除</button>
                 </li>
             `,
         // 数据
