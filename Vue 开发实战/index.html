@@ -35,7 +35,7 @@
                 <li>
                     <span v-if="!del">{{ title }}</span>
                     <span v-else style="text-decoration: line-through;">{{title}}</span>
-                    <!-- @是v-on的简写，监听DOM事件，触发时执行一些javaScript代码 -->
+                    <!-- @是v-on的简写,用于绑定事件监听器，普通元素只能监听DOM事件，触发时执行一些javaScript代码 -->
                     <!-- v-on:click="func()" 的缩写时 @click="func()" -->
                     <button v-show="!del" @click="handleClick">删除</button>
                 </li>
@@ -49,14 +49,21 @@
           };
         },
         // 方法
-        methods: {}
+        methods: {
+          handleClick() {
+            console.log('点击删除按钮')
+            // 如果有更多的参数可以持续的添加
+            this.$emit('delete', this.title)
+          }
+        }
       });
 
       Vue.component('todo-list', {
         template: `
             <ul>
-                <!-- 没有声明的属性如 test, 会被自动挂载到模板的根节点上 -->
-                <todo-item v-for="item in list" test="???" :title="item.title" :del="item.del"></todo-item>
+                <!-- 1. 没有声明的属性如 test, 会被自动挂载到模板的根节点上 -->
+                <!-- 2. 对于自定义元素，也可以监听其子组件触发的自定义事件，如下面的 @delete="func()" -->
+                <todo-item v-for="item in list" @delete="handleDelete" test="???" :title="item.title" :del="item.del"></todo-item>
             </ul>
             `,
         data: function () {
@@ -72,6 +79,11 @@
               }
             ]
           };
+        },
+        methods: {
+          handleDelete(val) {
+            console.log('handleDelete', val)
+          }
         }
       });
       var vm = new Vue({
